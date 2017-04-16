@@ -13,7 +13,7 @@ serverPort = 9000
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName,serverPort))
 
-print("Zgjedh nje opcion :  \n IP \n PORT \n HOST \n KOHA  \n KENO  \n KONVERTO \n ")
+print("Zgjedh nje opcion :  \n IP \n PORT \n HOST \n KOHA  \n KENO  \n KONVERTO \n FAKTORIEL \n")
 print("-----------------------\n")
 opcioni=input()
 #me ba case insensitive, e kthejm cdo input nshkronja tmdhaja
@@ -53,6 +53,12 @@ elif opcioniUP=="KENO":
     clientSocket.send(opcioniUP.encode('ASCII'))
     modifiedOpcioni = clientSocket.recv(1024)
     print("From Server:", modifiedOpcioni.decode('ASCII'))
+elif opcioniUP == "FAKTORIEL":
+    clientSocket.send(opcioniUP.encode("ASCII"))
+    print ( clientSocket.recv(1024).decode("ASCII"))
+    numri = input()
+    clientSocket.send(numri.encode("ASCII"))
+    print ("Rezultati: " + str(numri) + "! = " + clientSocket.recv(1024).decode("ASCII"))
 elif opcioniUP=="KONVERTO":
     konvertimi = input("KONVERTO ")
     if konvertimi=="?":
@@ -66,6 +72,7 @@ elif opcioniUP=="KONVERTO":
         konvertoServer()
     else:
         konvertoServer()
+
 
 
 clientSocket.close()
