@@ -59,6 +59,14 @@ def konverto(opcioni,numri):
     elif opcioni == b"KilogramToPound":
         pound = numri/0.45359237
         return pound
+    
+#funksioni per llogaritjen e faktorielit
+def faktoriel(n):
+    rez = 1
+    while n>0:
+        rez *= n
+        n -= 1
+    return rez
          
 mesazhiIP =str(getIP())
 mesazhiPORT = str(serverPort)
@@ -73,25 +81,29 @@ mesazhiKeno=str(getKeno())
 
 while 1:
     connectionSocket, addr = serverSocket.accept()
-    opcioni = connectionSocket.recv(1024)
+    opcioni = connectionSocket.recv(1024).decode("ASCII")
     capitalizedOpcioni = opcioni.upper()
-    if(opcioni == b"IP"):
+    if(opcioni == "IP"):
         connectionSocket.send(mesazhiIP.encode('ASCII'))
-    elif (opcioni == b"PORT"):
+    elif (opcioni == "PORT"):
         connectionSocket.send(mesazhiPORT.encode('ASCII'))
-    elif (opcioni == b"HOST"):
+    elif (opcioni == "HOST"):
         connectionSocket.send(mesazhiHOST.encode('ASCII'))
-    elif (opcioni==b"KOHA"):
+    elif (opcioni=="KOHA"):
         connectionSocket.send(mesazhiKoha.encode('ASCII'))
-    elif (opcioni==b"KENO"):
+    elif (opcioni=="KENO"):
         connectionSocket.send(mesazhiKeno.encode('ASCII'))
+    #pjesa per faktoriel
+    elif (opcioni == "FAKTORIEL"):
+        connectionSocket.send("Jep numrin: ".encode("ASCII"))
+        n = connectionSocket.recv(1024).decode("ASCII")
+        connectionSocket.send(str(faktoriel(int(n))).encode("ASCII"))
     #pjesa per konverto
-    elif b"TO" in capitalizedOpcioni:
-        opcioni,numri=opcioni.split(b' ') 
+    elif "TO" in capitalizedOpcioni:
+        opcioni,numri=opcioni.split(' ') 
         numri1=int(numri)
         mesazhiKONVERTO=str(konverto(opcioni,numri1))
         connectionSocket.send(mesazhiKONVERTO.encode('ASCII'))
-
     else:
         connectionSocket.send(mesazhinull.encode('ASCII'))
     connectionSocket.close()
