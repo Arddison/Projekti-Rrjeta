@@ -406,6 +406,9 @@ while 1:
     elif (inputi[0].upper() == "KALKULO"):
          serverSocket.sendto(str(kalkulo(inputi[1], int(inputi[2]), int(inputi[3]))).encode("ASCII"), address)
     elif (inputi[0].upper() == "KONSTANTA"):
+         if (inputi[1] == "?"):
+             serverSocket.sendto(("Zgjidhni nje nga konstantat me poshte: \n PI \n e \n G \n").encode("ASCII"), address)
+             continue
          serverSocket.sendto(str(konstantat(inputi[1])).encode("ASCII"), address)
     else: 
         serverSocket.sendto(mesazhinull.encode('ASCII'),address)
